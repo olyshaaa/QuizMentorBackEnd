@@ -8,3 +8,6 @@ class BackendQuizMentorApplicationTests {
 
     @Test
     void contextLoads() {
+    }
+
+}
