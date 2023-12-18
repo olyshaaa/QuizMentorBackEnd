@@ -4,6 +4,8 @@ import com.example.backendquizmentor.model.UserRequestDTO;
 import com.example.backendquizmentor.roles.UserRole;
 import com.example.backendquizmentor.services.UserService;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,23 +33,18 @@ public class AuthController {
         logger.info("Receiver request to create a new user with login: {}", userRequest.getLogin());
         System.out.println("Controller AuthController");
         String passHash = passwordEncoder.encode(userRequest.getPassword());
-
+        if(userService.isUsernameTaken(userRequest.getLogin())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         if(!userService.addUser(userRequest.getLogin(), passHash, UserRole.USER, userRequest.getEmail())){
             model.addAttribute("exists", true);
             model.addAttribute("login", userRequest.getLogin());
             return ResponseEntity.badRequest().body("User registration failed");
         }
         logger.info("created new user");
+
         return ResponseEntity.ok().build();
     }
-
-    @GetMapping("check")
-    public ResponseEntity<String> check() {
-        logger.info("check");
-        System.out.println("check");
-        return ResponseEntity.ok("Check endpoint invoked successfully");
-    }
-
 
 
 }

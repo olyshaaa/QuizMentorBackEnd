@@ -28,6 +28,9 @@ public class UserService {
         return userRepository.findByLogin(login);
     }
 
+    public boolean isUsernameTaken(String username){
+        return userRepository.existsByLogin(username);
+    }
     @Transactional
     public void deleteUsers(List<Long> ids){
         ids.forEach(id -> {

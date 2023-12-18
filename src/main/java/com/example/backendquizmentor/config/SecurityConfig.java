@@ -1,5 +1,6 @@
 package com.example.backendquizmentor.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,10 +43,24 @@ public class SecurityConfig {
 
                 )
                 .formLogin(formLogin -> formLogin
-                       .loginPage("http://localhost:5173/login").loginProcessingUrl("/j_spring_security_check").failureUrl("http://localhost:5173/login?error")
-                        .defaultSuccessUrl("http://localhost:5173/home").usernameParameter("login").passwordParameter("password")
-                        .permitAll());
-               // .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/login"));
+                       .loginPage("http://localhost:5173/login").
+                        loginProcessingUrl("/j_spring_security_check")
+
+                        //.successHandler((request, response, authentication) -> {
+                          /// response.setStatus(HttpServletResponse.SC_OK);
+                        //})
+                        //.failureUrl("http://localhost:5173/login?error")
+                        .failureHandler((request, response, exception) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                           logger.error("Authentication failed for user: {}", request.getParameter("username"), exception);
+                        })
+                        .defaultSuccessUrl("http://localhost:5173/home")
+                        .usernameParameter("login").passwordParameter("password")
+                        .permitAll()
+
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/login?denied"));
+
 
 
         //.logout(logout -> logout.logoutUrl("/login").permitAll());

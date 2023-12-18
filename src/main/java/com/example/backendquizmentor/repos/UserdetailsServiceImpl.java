@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,16 +23,21 @@ public class UserdetailsServiceImpl implements UserDetailsService {
         this.userService = userService;
     }
 
+    private final Logger logger = LoggerFactory.getLogger(UserdetailsServiceImpl.class);
+
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException{
+        logger.info("Trying to authenticate user with login: {}", login);
         CustomUser customUser = userService.findByLogin(login);
-        if(customUser == null)
+        if(customUser == null){
+            logger.warn("User not found with login: {}", login);
             throw new UsernameNotFoundException(login + "not found");
+        }
 
         List<GrantedAuthority> roles = Arrays.asList(
                 new SimpleGrantedAuthority(customUser.getRole().toString())
         );
-
+        logger.info("User {} successfully authenticated", login);
         return new User(customUser.getLogin(), customUser.getPassword(), roles);
     }
 }
