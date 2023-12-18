@@ -29,6 +29,7 @@ public class AuthController {
     public ResponseEntity<String> update(@RequestBody UserRequestDTO userRequest,
                                          Model model){
         logger.info("Receiver request to create a new user with login: {}", userRequest.getLogin());
+        System.out.println("Controller AuthController");
         String passHash = passwordEncoder.encode(userRequest.getPassword());
 
         if(!userService.addUser(userRequest.getLogin(), passHash, UserRole.USER, userRequest.getEmail())){
@@ -36,9 +37,17 @@ public class AuthController {
             model.addAttribute("login", userRequest.getLogin());
             return ResponseEntity.badRequest().body("User registration failed");
         }
-
+        logger.info("created new user");
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("check")
+    public ResponseEntity<String> check() {
+        logger.info("check");
+        System.out.println("check");
+        return ResponseEntity.ok("Check endpoint invoked successfully");
+    }
+
 
 
 }
