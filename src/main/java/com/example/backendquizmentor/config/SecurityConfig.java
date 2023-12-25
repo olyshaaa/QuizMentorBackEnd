@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,10 +22,11 @@ public class SecurityConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
-
-    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AuthenticationSuccessHandler authenticationSuccessHandler) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
     }
 
     @Autowired
@@ -39,17 +41,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/register", "/newuser", "/createModule").permitAll().anyRequest().authenticated()
+                        .requestMatchers("/register", "/createModule", "/modules/**").permitAll()
 
                 )
                 .formLogin(formLogin -> formLogin
                        .loginPage("http://localhost:5173/login").
                         loginProcessingUrl("/j_spring_security_check")
 
-                        //.successHandler((request, response, authentication) -> {
-                          /// response.setStatus(HttpServletResponse.SC_OK);
-                        //})
-                        //.failureUrl("http://localhost:5173/login?error")
                         .failureHandler((request, response, exception) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                            logger.error("Authentication failed for user: {}", request.getParameter("username"), exception);
@@ -57,13 +55,11 @@ public class SecurityConfig {
                         .defaultSuccessUrl("http://localhost:5173/home")
                         .usernameParameter("login").passwordParameter("password")
                         .permitAll()
-
                 )
+                .logout(logout -> logout.logoutUrl("/logout").invalidateHttpSession(true).logoutSuccessUrl("/").permitAll())
+                .oauth2Login(oauth -> oauth.loginPage("http://localhost:5173/login").successHandler(authenticationSuccessHandler))
                 .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/login?denied"));
 
-
-
-        //.logout(logout -> logout.logoutUrl("/login").permitAll());
         return http.build();
     }
 }

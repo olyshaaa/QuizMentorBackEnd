@@ -3,12 +3,15 @@ package com.example.backendquizmentor.services;
 import com.example.backendquizmentor.model.Card;
 import com.example.backendquizmentor.model.CardDTO;
 import com.example.backendquizmentor.model.CustomModule;
+import com.example.backendquizmentor.model.ModuleRequestDTO;
 import com.example.backendquizmentor.repos.CardRepository;
 import com.example.backendquizmentor.repos.ModuleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -27,7 +30,6 @@ public class ModuleService {
         this.moduleRepository = moduleRepository;
         this.cardRepository = cardRepository;
     }
-    //dont used
     @Transactional
     public boolean createModule(String moduleName, List<CardDTO> cards, String authorUsername){
         logger.info("Creating a new module with name: {}, author: {}", moduleName, authorUsername);
@@ -40,16 +42,11 @@ public class ModuleService {
             }
             moduleRepository.save(module);
 
-
-
-            // Логируем информацию о транзакции
             logger.info("Transaction status after save: {}", TransactionSynchronizationManager.isActualTransactionActive());
         } catch (Exception e) {
-            // Логируем информацию о транзакции в случае исключения
             logger.error("Error during module creation", e);
         }
 
-        // Логируем информацию о транзакции после завершения метода
         logger.info("Transaction status at the end of createModule method: {}", TransactionSynchronizationManager.isActualTransactionActive());
 
         return true;
@@ -69,5 +66,30 @@ public class ModuleService {
             logger.error("Error during module creation. Transaction status: {}", TransactionSynchronizationManager.isActualTransactionActive(), e);
             throw e;
         }
+    }
+
+    public List<ModuleRequestDTO> getModulesByUsername(String username){
+        List<CustomModule> modules = moduleRepository.findByAuthorUsername(username);
+        logger.info("received a request to get modules for user " + username);
+
+        return modules.stream()
+                .map(module -> {
+                    List<Card> cards = module.getCards();
+                    List<CardDTO> cardsDTO = cards.stream()
+                            .map(card -> {
+                                CardDTO cardDTO = new CardDTO();
+                                cardDTO.setTerm(card.getTerm());
+                                cardDTO.setDefinition(card.getDefinition());
+                                return cardDTO;
+                            })
+                            .collect(Collectors.toList());
+
+                    ModuleRequestDTO response = new ModuleRequestDTO();
+                    response.setModuleName(module.getModuleName());
+                    response.setAuthorUsername(username);
+                    response.setCards(cardsDTO);
+                    return response;
+                })
+                .collect(Collectors.toList());
     }
 }

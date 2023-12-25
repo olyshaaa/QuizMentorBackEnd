@@ -14,14 +14,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173", "http://localhost:8080", "http://localhost:5173/createBlock")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedOrigins("http://localhost:5173/")
+                        .allowedMethods("*")
                         .allowedHeaders("*")
-                        .exposedHeaders("Authorization")
-                        .allowCredentials(true).maxAge(3600);
-
-
-
+                        .allowCredentials(true);
             }
         };
     }

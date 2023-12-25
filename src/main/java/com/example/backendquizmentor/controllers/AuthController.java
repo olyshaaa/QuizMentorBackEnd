@@ -5,15 +5,17 @@ import com.example.backendquizmentor.roles.UserRole;
 import com.example.backendquizmentor.services.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @CrossOrigin(origins = {"http://localhost:5173/signup", "http://localhost:5173/login", "http://localhost:5173"})
@@ -42,7 +44,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body("User registration failed");
         }
         logger.info("created new user");
-
         return ResponseEntity.ok().build();
     }
 

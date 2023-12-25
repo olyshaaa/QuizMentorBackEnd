@@ -2,6 +2,7 @@ package com.example.backendquizmentor.services;
 
 import com.example.backendquizmentor.config.AppConfig;
 import com.example.backendquizmentor.model.CustomUser;
+import com.example.backendquizmentor.model.UserRequestDTO;
 import com.example.backendquizmentor.repos.UserRepository;
 import com.example.backendquizmentor.roles.UserRole;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,15 @@ public class UserService {
         userRepository.save(user);
 
         return true;
+    }
+
+    @Transactional
+    public void addUserByGoogle(UserRequestDTO user){
+        if(userRepository.existsByLogin(user.getLogin())){
+            return ;
+        }
+        //TODO
+        //CustomUser customUser
     }
 
     @Transactional
