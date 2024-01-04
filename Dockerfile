@@ -1,4 +1,4 @@
-FROM openjdk:17-jre-slim
+FROM openjdk
 WORKDIR /app
 
 COPY target/backendQuizMentor-0.0.1-SNAPSHOT.jar app.jar
