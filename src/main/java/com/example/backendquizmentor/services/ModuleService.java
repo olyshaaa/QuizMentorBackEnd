@@ -24,8 +24,6 @@ public class ModuleService {
     private final CardRepository cardRepository;
     private final Logger logger = LoggerFactory.getLogger(ModuleService.class);
 
-
-
     public ModuleService(ModuleRepository moduleRepository, CardRepository cardRepository) {
         this.moduleRepository = moduleRepository;
         this.cardRepository = cardRepository;

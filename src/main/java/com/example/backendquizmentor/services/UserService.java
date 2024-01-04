@@ -5,18 +5,23 @@ import com.example.backendquizmentor.model.CustomUser;
 import com.example.backendquizmentor.model.UserRequestDTO;
 import com.example.backendquizmentor.repos.UserRepository;
 import com.example.backendquizmentor.roles.UserRole;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -33,18 +38,6 @@ public class UserService {
         return userRepository.existsByLogin(username);
     }
     @Transactional
-    public void deleteUsers(List<Long> ids){
-        ids.forEach(id -> {
-            Optional<CustomUser> user = userRepository.findById(id);
-            user.ifPresent(u ->{
-                if( !AppConfig.ADMIN.equals(u.getLogin())){
-                    userRepository.deleteById(u.getId());
-                }
-            });
-        });
-    }
-
-    @Transactional
     public boolean addUser(String login, String passHash,
                            UserRole role, String email){
         if (userRepository.existsByLogin(login))
@@ -55,21 +48,4 @@ public class UserService {
         return true;
     }
 
-    @Transactional
-    public void addUserByGoogle(UserRequestDTO user){
-        if(userRepository.existsByLogin(user.getLogin())){
-            return ;
-        }
-        //TODO
-        //CustomUser customUser
-    }
-
-    @Transactional
-    public void updateUser(String login, String email){
-        CustomUser user = userRepository.findByLogin(login);
-        if(user ==null)
-            return;
-        user.setEmail(email);
-        userRepository.save(user);
-    }
 }

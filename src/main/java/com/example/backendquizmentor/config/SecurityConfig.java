@@ -57,7 +57,6 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout.logoutUrl("/logout").invalidateHttpSession(true).logoutSuccessUrl("/login").permitAll())
-                .oauth2Login(oauth -> oauth.loginPage("http://localhost:5173/login").successHandler(authenticationSuccessHandler))
                 .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/login?denied"));
 
         return http.build();
