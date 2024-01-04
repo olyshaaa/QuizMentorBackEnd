@@ -41,7 +41,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/createModule", "/modules/**").permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/register", "/createModule", "/modules/**", "/logout", "/newuser", "/search/**").permitAll().anyRequest().authenticated()
 
                 )
                 .formLogin(formLogin -> formLogin
@@ -56,7 +56,7 @@ public class SecurityConfig {
                         .usernameParameter("login").passwordParameter("password")
                         .permitAll()
                 )
-                .logout(logout -> logout.logoutUrl("/logout").invalidateHttpSession(true).logoutSuccessUrl("/").permitAll())
+                .logout(logout -> logout.logoutUrl("/logout").invalidateHttpSession(true).logoutSuccessUrl("/login").permitAll())
                 .oauth2Login(oauth -> oauth.loginPage("http://localhost:5173/login").successHandler(authenticationSuccessHandler))
                 .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/login?denied"));
 

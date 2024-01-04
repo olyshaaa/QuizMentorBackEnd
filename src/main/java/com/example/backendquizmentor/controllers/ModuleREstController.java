@@ -38,4 +38,27 @@ public class ModuleREstController {
         logger.info("modules are got");
         return new ResponseEntity<>(modules, HttpStatus.OK);
     }
+
+    @CrossOrigin(origins  = {"http://localjost:5173", "http://localhost:5173/community"})
+    @GetMapping("/modules/getALl")
+    public  ResponseEntity<List<ModuleRequestDTO>> getAllModules(){
+        List<ModuleRequestDTO> modules = moduleService.getALlModules();
+        if(modules.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        logger.info("modules are got");
+        return new ResponseEntity<>(modules, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins  = {"http://localjost:5173", "http://localhost:5173/community", "http://localhost:5173/home"})
+    @GetMapping("/search/{request}")
+    public ResponseEntity<List<ModuleRequestDTO>> searchByRequest (@PathVariable("request") String request){
+        List<ModuleRequestDTO> modules = moduleService.getSearchResult(request);
+        if(modules.isEmpty()){
+            logger.info("modules arent got");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        logger.info("modules are got");
+        return new ResponseEntity<>(modules, HttpStatus.OK);
+    }
 }

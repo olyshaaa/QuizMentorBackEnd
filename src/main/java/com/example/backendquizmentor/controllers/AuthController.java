@@ -47,5 +47,18 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "redirect:http://localhost:5173/login";
+    }
 
+    @GetMapping("/signup")
+    public String register(){
+        return "redirect:http://localhost:5173/signup";
+    }
+
+    @GetMapping("/")
+    public String main(){
+        return "redirect:http://localhost:5173/";
+    }
 }

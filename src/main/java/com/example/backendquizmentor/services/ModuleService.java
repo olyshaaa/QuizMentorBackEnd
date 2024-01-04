@@ -92,4 +92,52 @@ public class ModuleService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public List<ModuleRequestDTO> getALlModules(){
+        List<CustomModule> modules = moduleRepository.findAll();
+        logger.info("received a request to  get all modules");
+
+        return modules.stream()
+                .map(module -> {
+                    List<Card> cards = module.getCards();
+                    List<CardDTO> cardsDTO = cards.stream()
+                            .map(card -> {
+                                CardDTO cardDTO = new CardDTO();
+                                cardDTO.setTerm(card.getTerm());
+                                cardDTO.setDefinition(card.getDefinition());
+                                return cardDTO;
+                            })
+                            .collect(Collectors.toList());
+                    ModuleRequestDTO response = new ModuleRequestDTO();
+                    response.setModuleName(module.getModuleName());
+                    response.setCards(cardsDTO);
+                    response.setAuthorUsername(module.getAuthorUsername());
+                    return response;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<ModuleRequestDTO> getSearchResult(String request){
+        logger.info("received requests to find module with name: "+ request);
+        List<CustomModule> modules = moduleRepository.findByRequest(request);
+        return modules.stream()
+                .map(module -> {
+                    List<Card> cards = module.getCards();
+                    List<CardDTO> cardsDTO = cards.stream()
+                            .map(card -> {
+                                CardDTO cardDTO = new CardDTO();
+                                cardDTO.setTerm(card.getTerm());
+                                cardDTO.setDefinition(card.getDefinition());
+                                return cardDTO;
+                            })
+                            .collect(Collectors.toList());
+
+                    ModuleRequestDTO response = new ModuleRequestDTO();
+                    response.setModuleName(module.getModuleName());
+                    response.setAuthorUsername(module.getAuthorUsername());
+                    response.setCards(cardsDTO);
+                    return response;
+                })
+                .collect(Collectors.toList());
+    }
 }
