@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @EntityScan("com.example.backendquizmentor.model")
 @ComponentScan(basePackages = "com.example")
-//@EnableJpaRepositories(basePackages = "com.example.backendquizmentor.repos")
 public class BackendQuizMentorApplication {
 
     public static void main(String[] args) {

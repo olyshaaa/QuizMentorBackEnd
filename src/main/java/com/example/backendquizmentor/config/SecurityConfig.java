@@ -50,7 +50,6 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                            logger.error("Authentication failed for user: {}", request.getParameter("username"), exception);
                         })
-                        .defaultSuccessUrl("https://quiz-mentor.vercel.app/home")
                         .usernameParameter("login").passwordParameter("password")
                         .permitAll()
                 )
