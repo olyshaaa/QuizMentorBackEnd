@@ -39,8 +39,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "/signup", "/register", "/createModule", "/modules/**", "/logout", "/newuser", "/search/**").permitAll().anyRequest().authenticated()
-
+                        .requestMatchers("/", "/login", "/signup", "/register", "/createModule", "/modules/**", "/logout", "/newuser", "/search/**", "/j_spring_security_check").permitAll().anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                        .loginPage("https://quiz-mentor.vercel.app/login").
