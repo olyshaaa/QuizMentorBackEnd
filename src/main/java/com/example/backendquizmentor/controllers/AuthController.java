@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@CrossOrigin(origins = {"http://localhost:5173/signup", "http://localhost:5173/login", "http://localhost:5173"})
+@CrossOrigin(origins = {"https://quiz-mentor.vercel.app/signup", "https://quiz-mentor.vercel.app/login", "https://quiz-mentor.vercel.app"})
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final UserService userService;
@@ -49,16 +49,16 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login(){
-        return "redirect:http://localhost:5173/login";
+        return "redirect:https://quiz-mentor.vercel.app/login";
     }
 
     @GetMapping("/signup")
     public String register(){
-        return "redirect:http://localhost:5173/signup";
+        return "redirect:https://quiz-mentor.vercel.app/signup";
     }
 
     @GetMapping("/")
     public String main(){
-        return "redirect:http://localhost:5173/";
+        return "redirect:https://quiz-mentor.vercel.app/";
     }
 }

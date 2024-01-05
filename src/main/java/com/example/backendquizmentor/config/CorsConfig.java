@@ -21,14 +21,14 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 logger.debug("Configuring CORS");
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins("https://quiz-mentor.vercel.app")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .exposedHeaders("Content-Type", "Authorization")
                         .allowCredentials(true);
 
                 registry.addMapping("/logout")
-                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins("https://quiz-mentor.vercel.app")
                         .exposedHeaders("Content-Type", "Authorization")
                         .allowCredentials(true);
             }

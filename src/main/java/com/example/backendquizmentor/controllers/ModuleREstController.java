@@ -28,7 +28,7 @@ public class ModuleREstController {
 
     @Autowired
     private ModuleService moduleService;
-    @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5173/home"})
+    @CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home"})
     @GetMapping("modules/{username}")
     public ResponseEntity<List<ModuleRequestDTO>> getModulesByUsername(@PathVariable("username") String username){
         List<ModuleRequestDTO> modules = moduleService.getModulesByUsername(username);
@@ -39,7 +39,7 @@ public class ModuleREstController {
         return new ResponseEntity<>(modules, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins  = {"http://localjost:5173", "http://localhost:5173/community"})
+    @CrossOrigin(origins  = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/community"})
     @GetMapping("/modules/getALl")
     public  ResponseEntity<List<ModuleRequestDTO>> getAllModules(){
         List<ModuleRequestDTO> modules = moduleService.getALlModules();
@@ -50,7 +50,7 @@ public class ModuleREstController {
         return new ResponseEntity<>(modules, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins  = {"http://localjost:5173", "http://localhost:5173/community", "http://localhost:5173/home"})
+    @CrossOrigin(origins  = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/community", "https://quiz-mentor.vercel.app/home"})
     @GetMapping("/search/{request}")
     public ResponseEntity<List<ModuleRequestDTO>> searchByRequest (@PathVariable("request") String request){
         List<ModuleRequestDTO> modules = moduleService.getSearchResult(request);

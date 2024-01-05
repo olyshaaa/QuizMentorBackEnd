@@ -43,14 +43,14 @@ public class SecurityConfig {
 
                 )
                 .formLogin(formLogin -> formLogin
-                       .loginPage("http://localhost:5173/login").
+                       .loginPage("https://quiz-mentor.vercel.app/login").
                         loginProcessingUrl("/j_spring_security_check")
 
                         .failureHandler((request, response, exception) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                            logger.error("Authentication failed for user: {}", request.getParameter("username"), exception);
                         })
-                        .defaultSuccessUrl("http://localhost:5173/home")
+                        .defaultSuccessUrl("https://quiz-mentor.vercel.app/home")
                         .usernameParameter("login").passwordParameter("password")
                         .permitAll()
                 )
