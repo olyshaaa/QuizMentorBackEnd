@@ -47,18 +47,4 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "redirect:https://quiz-mentor.vercel.app/login";
-    }
-
-    @GetMapping("/signup")
-    public String register(){
-        return "redirect:https://quiz-mentor.vercel.app/signup";
-    }
-
-    @GetMapping("/")
-    public String main(){
-        return "redirect:https://quiz-mentor.vercel.app/";
-    }
 }
