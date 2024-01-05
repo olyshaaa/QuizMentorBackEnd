@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
     public ModuleController(ModuleService moduleService) {
         this.moduleService = moduleService;
     }
-    @CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "hhttps://quiz-mentor.vercel.app/home"})
+    @CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home"})
     @PostMapping(value = "/createModule")
     @Transactional
     public ResponseEntity<String> createModule(@RequestBody ModuleRequestDTO moduleRequest){
@@ -61,7 +61,4 @@ import java.util.stream.Collectors;
             return ResponseEntity.ok().build();
 
     }
-
-
-
 }
