@@ -28,7 +28,7 @@ public class ModuleREstController {
 
     @Autowired
     private ModuleService moduleService;
-    @CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home"})
+    @CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home", "http://localhost:5173", "http://localhost:5173/login"})
     @GetMapping("modules/{username}")
     public ResponseEntity<List<ModuleRequestDTO>> getModulesByUsername(@PathVariable("username") String username){
         List<ModuleRequestDTO> modules = moduleService.getModulesByUsername(username);

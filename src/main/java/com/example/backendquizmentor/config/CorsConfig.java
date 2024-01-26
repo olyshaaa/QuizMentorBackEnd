@@ -21,19 +21,19 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 logger.debug("Configuring CORS");
                 registry.addMapping("/**")
-                        .allowedOrigins("https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/login")
+                        .allowedOrigins("https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/login", "http://localhost:5173", "http://localhost:5173/login")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .exposedHeaders("Content-Type", "Authorization")
                         .allowCredentials(true);
 
                 registry.addMapping("/logout")
-                        .allowedOrigins("https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/login")
+                        .allowedOrigins("https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/login", "http://localhost:5173", "http://localhost:5173/login")
                         .exposedHeaders("Content-Type", "Authorization")
                         .allowCredentials(true);
 
                 registry.addMapping("/j_spring_security_check")
-                        .allowedOrigins("https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/login")
+                        .allowedOrigins("https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/login", "http://localhost:5173", "http://localhost:5173/login")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .exposedHeaders("Content-Type", "Authorization")

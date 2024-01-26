@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
-@CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home"})
+@CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home", "http://localhost:5173", "http://localhost:5173/login"})
         public class ModuleController {
     private final ModuleService moduleService;
 
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
     public ModuleController(ModuleService moduleService) {
         this.moduleService = moduleService;
     }
-    @CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home"})
+    @CrossOrigin(origins = {"https://quiz-mentor.vercel.app", "https://quiz-mentor.vercel.app/home", "http://localhost:5173", "http://localhost:5173/home"})
     @PostMapping(value = "/createModule")
     @Transactional
     public ResponseEntity<String> createModule(@RequestBody ModuleRequestDTO moduleRequest){
