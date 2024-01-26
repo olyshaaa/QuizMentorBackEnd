@@ -14,7 +14,7 @@ import java.util.List;
 public class CustomModule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "module_name")
     private String moduleName;

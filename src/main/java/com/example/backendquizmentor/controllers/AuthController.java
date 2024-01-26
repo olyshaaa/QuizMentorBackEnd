@@ -33,7 +33,6 @@ public class AuthController {
     public ResponseEntity<String> update(@RequestBody UserRequestDTO userRequest,
                                          Model model){
         logger.info("Receiver request to create a new user with login: {}", userRequest.getLogin());
-        System.out.println("Controller AuthController");
         String passHash = passwordEncoder.encode(userRequest.getPassword());
         if(userService.isUsernameTaken(userRequest.getLogin())){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

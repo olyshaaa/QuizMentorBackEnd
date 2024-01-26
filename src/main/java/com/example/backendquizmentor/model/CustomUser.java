@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class CustomUser {
     @Id
     @GeneratedValue()
-    private long id;
+    private Long id;
 
     private String login;
     private String password;

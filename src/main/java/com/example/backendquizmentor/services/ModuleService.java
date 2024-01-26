@@ -65,7 +65,7 @@ public class ModuleService {
             throw e;
         }
     }
-
+    @Transactional(readOnly = true)
     public List<ModuleRequestDTO> getModulesByUsername(String username){
         List<CustomModule> modules = moduleRepository.findByAuthorUsername(username);
         logger.info("received a request to get modules for user " + username);
@@ -90,7 +90,7 @@ public class ModuleService {
                 })
                 .collect(Collectors.toList());
     }
-
+    @Transactional(readOnly = true)
     public List<ModuleRequestDTO> getALlModules(){
         List<CustomModule> modules = moduleRepository.findAll();
         logger.info("received a request to  get all modules");
@@ -114,7 +114,7 @@ public class ModuleService {
                 })
                 .collect(Collectors.toList());
     }
-
+    @Transactional(readOnly = true)
     public List<ModuleRequestDTO> getSearchResult(String request){
         logger.info("received requests to find module with name: "+ request);
         List<CustomModule> modules = moduleRepository.findByRequest(request);
